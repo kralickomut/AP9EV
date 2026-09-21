@@ -41,8 +41,7 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# IDE (PyCharm keeps its own .idea/.gitignore for local-only files)
+# IDE
+.idea/
 *.iml
-.idea/workspace.xml
-.idea/shelf/
 .vscode/
