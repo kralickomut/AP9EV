@@ -41,8 +41,9 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# MS Office temporary lock files
+# MS Office - protokol se drží jen jako PDF
 ~$*
+*.docx
 
 # IDE
 .idea/

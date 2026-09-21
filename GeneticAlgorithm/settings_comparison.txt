@@ -1,0 +1,32 @@
+Srovnání nastavení, 30 nezávislých běhů, rozpočet 100*D vyhodnocení
+  A malá pop. + rank   pop_size = 20, elite_ratio = 0.2, p_mut = 0.01, selection = rank
+  B větší populace     pop_size = 50, elite_ratio = 0.1, p_mut = 0.01, selection = rank
+  C mutace 0.5 %       pop_size = 20, elite_ratio = 0.2, p_mut = 0.005, selection = rank
+  D ruletová selekce   pop_size = 20, elite_ratio = 0.2, p_mut = 0.01, selection = roulette
+
+Nastavení           Úloha           D  Nejlepší  Nejhorší   Průměr   Medián  Sm. odch.
+--------------------------------------------------------------------------------------
+A malá pop. + rank  OneMax         10        10        10    10.00     10.0      0.000
+B větší populace    OneMax         10        10        10    10.00     10.0      0.000
+C mutace 0.5 %      OneMax         10        10        10    10.00     10.0      0.000
+D ruletová selekce  OneMax         10        10        10    10.00     10.0      0.000
+A malá pop. + rank  OneMax         30        30        30    30.00     30.0      0.000
+B větší populace    OneMax         30        30        30    30.00     30.0      0.000
+C mutace 0.5 %      OneMax         30        30        30    30.00     30.0      0.000
+D ruletová selekce  OneMax         30        30        30    30.00     30.0      0.000
+A malá pop. + rank  OneMax        100       100       100   100.00    100.0      0.000
+B větší populace    OneMax        100       100       100   100.00    100.0      0.000
+C mutace 0.5 %      OneMax        100       100       100   100.00    100.0      0.000
+D ruletová selekce  OneMax        100       100       100   100.00    100.0      0.000
+A malá pop. + rank  LeadingOnes    10        10        10    10.00     10.0      0.000
+B větší populace    LeadingOnes    10        10        10    10.00     10.0      0.000
+C mutace 0.5 %      LeadingOnes    10        10         9     9.87     10.0      0.346
+D ruletová selekce  LeadingOnes    10        10        10    10.00     10.0      0.000
+A malá pop. + rank  LeadingOnes    30        30        25    29.63     30.0      1.159
+B větší populace    LeadingOnes    30        30        21    28.50     30.0      2.556
+C mutace 0.5 %      LeadingOnes    30        30        14    25.40     26.5      4.917
+D ruletová selekce  LeadingOnes    30        30        20    28.93     30.0      2.243
+A malá pop. + rank  LeadingOnes   100       100        70    85.70     84.0      9.259
+B větší populace    LeadingOnes   100        85        53    66.83     65.5      8.631
+C mutace 0.5 %      LeadingOnes   100        88        52    68.73     68.5      9.399
+D ruletová selekce  LeadingOnes   100       100        64    81.57     81.5     10.163

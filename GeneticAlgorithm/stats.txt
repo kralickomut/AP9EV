@@ -1,0 +1,18 @@
+10 nezávislých běhů, rozpočet 100*D vyhodnocení, pop_size = 20, elitismus 20%, p_mut = 0.01, p_cross = 1.0
+
+Úloha           D   Selekce  Nejlepší  Nejhorší   Průměr   Medián  Sm. odch.
+----------------------------------------------------------------------------
+OneMax         10  roulette        10        10    10.00     10.0      0.000
+OneMax         10      rank        10        10    10.00     10.0      0.000
+OneMax         30  roulette        30        30    30.00     30.0      0.000
+OneMax         30      rank        30        30    30.00     30.0      0.000
+OneMax        100  roulette       100       100   100.00    100.0      0.000
+OneMax        100      rank       100       100   100.00    100.0      0.000
+LeadingOnes    10  roulette        10        10    10.00     10.0      0.000
+LeadingOnes    10      rank        10        10    10.00     10.0      0.000
+LeadingOnes    30  roulette        30        26    29.50     30.0      1.269
+LeadingOnes    30      rank        30        25    29.20     30.0      1.751
+LeadingOnes   100  roulette        93        68    82.30     82.0      8.056
+LeadingOnes   100      rank        99        70    82.00     82.0      8.769
+
+Sm. odch. je výběrová (ddof=1). Optimum je u obou úloh rovno D.

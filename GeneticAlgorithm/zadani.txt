@@ -1,0 +1,21 @@
+Genetický algoritmus pracuje s binární reprezentací jedinců v populaci a využívá transformační operace křížení (crossover) a mutace.
+
+Výchozí populace je transformována do nové populace postupným křížením a mutací následovně:
+
+Nejdříve je do nové populace přemístěn zlomek populace stávající (nejlepší jedinci - elitismus). Zde se jedná o jeden z nastavitelných parametrů - tedy je potřeba experimentovat s jeho nastavením (typicky např. 10 - 20% nejlepších jedinců populace).
+
+Poté jsou na základě "ruletové selekce" (roulette selection) nebo "pořadové selekce" (rank selection) postupně vybíráni 2 rodiče. Pomocí jednobodového křížení vzniknou 2 potomci, kteří jsou následně mutováni. Tito potomci jsou umístěni do nové populace. Toto probíhá dokud nová populace nedosáhne požadované velikosti.
+
+Pravděpodobnost mutace cca 0.5 - 1%.
+
+Jednobodové křížení:
+
+Náhodně je vygenerováno místo křížení a binární řetězec je v tomto místě rozdělen u obou rodičů. První části jsou následně zaměněny. Vznikají 2 nové chromozomy (potomci).
+
+Jednobodová mutace (podmíněna pravděpodobností !):
+
+Po křížení projděte potomky bit po bitu a s pravděpodobností danou pravděpodobností mutace proveďte inverzi.
+
+Svou implementaci vyzkušejte na tzv. One-max problému (triviální účelová funkce - maximalizace počtu 1 v binárním řetězci) a na Leading ones problému (maximalizace délky řetězce 1 z levé strany binárního řetězce).
+
+Obě úlohy řešte v 10, 30 a 100D (délka binárního řetězce) a zobrazte průměrný konvergenční graf za 10 běhů pro 100xD ohodnocení účelové funkce (tedy 1000, 3000 a 10000). Zároveň zobrazte základní statistiky (nejlepší/nejhorší výsledek, průměr, medián, směrodatná odchylka). Zkuste najít vhodné nastavení kontrolních parametrů - velikost populace, poměr elitismu a křížení, typ selekce a křížení, pravděpodobnost mutace.
