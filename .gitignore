@@ -41,6 +41,9 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
+# MS Office temporary lock files
+~$*
+
 # IDE
 .idea/
 *.iml
