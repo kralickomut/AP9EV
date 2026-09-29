@@ -138,6 +138,46 @@ def format_stats_table(results: list[ExperimentResult]) -> str:
     return "\n".join(lines)
 
 
+def format_stats_markdown(results: list[ExperimentResult], params: dict, n_runs: int) -> str:
+    """Sestaví statistiky jako Markdown: nastavení a jednu tabulku na úlohu."""
+    lines = [
+        "# Statistiky experimentů",
+        "",
+        "## Nastavení",
+        "",
+        f"- **Počet běhů:** {n_runs} nezávislých běhů na konfiguraci",
+        "- **Rozpočet:** 100·D vyhodnocení účelové funkce",
+        f"- **Velikost populace:** {params['pop_size']}",
+        f"- **Elitismus:** {params['elite_ratio']:.0%}",
+        f"- **Pravděpodobnost mutace:** {params['p_mut']}",
+        f"- **Pravděpodobnost křížení:** {params['p_cross']}",
+    ]
+
+    for objective in dict.fromkeys(r.objective for r in results):
+        lines += [
+            "",
+            f"## {objective}",
+            "",
+            "| D | Selekce | Nejlepší | Nejhorší | Průměr | Medián | Sm. odch. |",
+            "|--:|:--------|---------:|---------:|-------:|-------:|----------:|",
+        ]
+        for r in results:
+            if r.objective != objective:
+                continue
+            s = r.stats
+            lines.append(
+                f"| {r.D} | {r.selection} | {s['nejlepsi']:.0f} | {s['nejhorsi']:.0f} "
+                f"| {s['prumer']:.2f} | {s['median']:.1f} | {s['smerodatna_odchylka']:.3f} |"
+            )
+
+    lines += [
+        "",
+        "Směrodatná odchylka je výběrová (ddof=1). Optimum je u obou úloh rovno D.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def plot_convergence(
     results: list[ExperimentResult],
     objective: str,
@@ -203,7 +243,7 @@ def experiment(
         selections: Selekce k porovnání; None znamená všechny ze SELECTION_METHODS.
         n_runs: Počet nezávislých běhů na konfiguraci.
         seed: Základní seed, kvůli reprodukovatelnosti.
-        output_dir: Adresář pro grafy a stats.txt.
+        output_dir: Adresář pro grafy a stats.md.
         **ga_kwargs: Přepis kontrolních parametrů (pop_size, elite_ratio,
             p_mut, p_cross); nezadané se berou z DEFAULT_PARAMS.
 
@@ -245,8 +285,8 @@ def experiment(
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    stats_path = output_dir / "stats.txt"
-    stats_path.write_text(f"{settings}\n\n{table}\n\n{footer}\n", encoding="utf-8")
+    stats_path = output_dir / "stats.md"
+    stats_path.write_text(format_stats_markdown(results, params, n_runs), encoding="utf-8")
     print(f"\nStatistiky uloženy do {stats_path}")
 
     for objective in objectives:
@@ -291,6 +331,48 @@ def format_comparison_table(results: list[ExperimentResult]) -> str:
             f"{st['prumer']:>9.2f}{st['median']:>9.1f}{st['smerodatna_odchylka']:>11.3f}"
         )
 
+    return "\n".join(lines)
+
+
+def format_comparison_markdown(
+    results: list[ExperimentResult], settings: dict[str, dict], n_runs: int
+) -> str:
+    """Srovnání nastavení jako Markdown: tabulka konfigurací a jedna tabulka na úlohu."""
+    keys = list(dict.fromkeys(k for params in settings.values() for k in params))
+    lines = [
+        "# Srovnání nastavení",
+        "",
+        f"{n_runs} nezávislých běhů na konfiguraci, rozpočet 100·D vyhodnocení "
+        "účelové funkce. Všechna nastavení běží se stejnými seedy.",
+        "",
+        "## Srovnávaná nastavení",
+        "",
+        "| Nastavení | " + " | ".join(keys) + " |",
+        "|:----------|" + "|".join("--:" for _ in keys) + "|",
+    ]
+    for label, params in settings.items():
+        lines.append(
+            f"| {label} | " + " | ".join(str(params.get(k, "")) for k in keys) + " |"
+        )
+
+    for objective in dict.fromkeys(r.objective for r in results):
+        lines += [
+            "",
+            f"## {objective}",
+            "",
+            "| D | Nastavení | Nejlepší | Nejhorší | Průměr | Medián | Sm. odch. |",
+            "|--:|:----------|---------:|---------:|-------:|-------:|----------:|",
+        ]
+        for r in results:
+            if r.objective != objective:
+                continue
+            st = r.stats
+            lines.append(
+                f"| {r.D} | {r.label} | {st['nejlepsi']:.0f} | {st['nejhorsi']:.0f} "
+                f"| {st['prumer']:.2f} | {st['median']:.1f} | {st['smerodatna_odchylka']:.3f} |"
+            )
+
+    lines += ["", "Směrodatná odchylka je výběrová (ddof=1). Optimum je u obou úloh rovno D.", ""]
     return "\n".join(lines)
 
 
@@ -389,8 +471,8 @@ def compare_settings(
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    path = output_dir / "settings_comparison.txt"
-    path.write_text(f"{intro}\n\n{table}\n", encoding="utf-8")
+    path = output_dir / "settings_comparison.md"
+    path.write_text(format_comparison_markdown(results, settings, n_runs), encoding="utf-8")
     print(f"\nTabulka uložena do {path}")
 
     for objective in objectives:
